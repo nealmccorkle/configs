@@ -1,0 +1,81 @@
+# Set the influxdb and cronograf password below
+---
+version: "2"
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /config/portainer/data:/data
+    ports:
+      - 9000:9000
+    networks:
+      - media_default
+      - utils_default
+    restart: unless-stopped
+    
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    hostname: influxdb
+    ports:
+      - '8086:8086'
+    networks:
+      - utils_default
+    volumes:
+      - /config/influxdb:/etc/influxdb
+      - /config/influxdb/data:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    restart: unless-stopped
+
+  chronograf:
+    image: chronograf:latest
+    container_name: chronograf
+    hostname: chronograf
+    networks:
+      - utils_default
+    ports:
+      - '192.168.1.2:8888:8888'
+    volumes:
+      - /var/config/chronograf/storage:/var/lib/chronograf
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=admin
+      - INFLUXDB_PASSWORD=admin
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    hostname: watchtower
+    networks:
+      - utils_default
+    environment:
+      - WATCHTOWER_SCHEDULE=0 15 02 ? * * # daily update 2:15am
+      - WATCHTOWER_DEBUG=true
+      - WATCHTOWER_TRACE=false
+      - WATCHTOWER_CLEANUP=true
+      - TZ=America/New_York
+      - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@bullcity.us
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=scott@bullcity.us
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.fastmail.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=587
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=bluecamel@imap.cc
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=kegxmaxwy7famjgb
+      - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+networks:
+  utils_default:
+    external: true
+  media_default:
+    external: true
