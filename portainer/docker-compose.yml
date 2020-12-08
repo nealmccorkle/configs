@@ -1,0 +1,160 @@
+---
+version: "2"
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+      - URL=mydomain.com
+      - ONLY_SUBDOMAINS=true
+      - SUBDOMAINS=home,ombi
+      - VALIDATION=http
+      - EMAIL=your.email@gmail.com
+    volumes:
+      - /config/swag:/config
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    hostname: plex
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+      - VERSION=latest
+      - UMASK_SET=022
+      - PLEX_CLAIM= #optional; see docker docs
+    devices:
+      - /dev/dri:/dev/dri # needed for Intel hardware transcode
+    ports:
+      - 32400:32400
+      - 1900:1900/udp
+      - 3005:3005
+      - 8324:8324
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+      - 32469:32469
+    volumes:
+      - /config/plex:/config
+      - /var/data/movies:/movies
+      - /var/data/shows:/tv
+    restart: unless-stopped
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+    volumes:
+      - /config/heimdall:/config
+    restart: unless-stopped
+  ombi:
+    image: linuxserver/ombi:v4-preview
+    container_name: ombi
+    hostname: ombi
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+    volumes:
+      - /config/ombi:/config
+    ports:
+      - 3579:3579
+    restart: unless-stopped
+  tautulli:
+    image: ghcr.io/linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+    volumes:
+      - /config/tautulli:/config
+      - /config/plex/Library/Application Support/Plex Media Server/Logs:/plex_logs
+      - /config/tautulli/logs:/logs
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+  sabnzbd:
+    image: ghcr.io/linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+    volumes:
+      - /config/sabnzbd:/config
+      - /var/data/sabnzbd/downloads:/downloads
+      - /var/data/sabnzbd/incomplete/:/incomplete-downloads
+    ports:
+      - 8080:8080
+      - 9090:9090
+    restart: unless-stopped
+  nzbhydra2:
+    image: ghcr.io/linuxserver/nzbhydra2
+    container_name: nzbhydra2
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+    volumes:
+      - /config/nzbhydra2:/config
+    ports:
+      - 5076:5076
+    restart: unless-stopped
+  bazarr:
+    image: ghcr.io/linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+      - UMASK_SET=022
+    volumes:
+      - /config/bazarr:/config
+      - /var/data/shows:/tv
+      - /var/data/movies:/movies
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+      - UMASK_SET=022
+    volumes:
+      - /config/sonarr:/config
+      - /var/data/shows:/tv
+      - /var/data/sabnzbd/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=2001
+      - PGID=2001
+      - TZ=America/New_York
+      - UMASK_SET=022
+    volumes:
+      - /config/radarr:/config
+      - /var/data/movies:/movies
+      - /var/data/sabnzbd/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
