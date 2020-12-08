@@ -36,7 +36,7 @@ Containers that will share access to the `/var/data` directory:
 The config and data dirs must be owned by the UID 2001 and GID 2001. This can be changed accordingly in the `docker-compose.yml` file. (I should use vars!) See [Understanding PUID and PGID](https://docs.linuxserver.io/general/understanding-puid-and-pgid) for more info.
 
 # External Access and Homepage
-The *Heimdall* image provides an easy to use home page for the media stack. You can optionally expose *Heimdall* with password protection using the *SWAG* proxy server and port forwarding on your router. Remove `heimdall` and `swag` from the `docker-compose.yml` if you do not need a home page and do not plan to expose servies outside your network.
+The *Heimdall* image provides an easy to use home page for the media stack. You can optionally expose *Heimdall* with password protection using the *SWAG* proxy server and port forwarding on your router. Remove `heimdall` and `swag` from the `docker-compose.yml` if you do not need a home page and do not plan to expose servies outside your network. The [SWAG Setup](https://docs.linuxserver.io/general/swag) docs provide detail and examples for various configs, including *Heimdall*.
 
 # Container Docs
 Links below provide applicaiton docs and docker container setup docs. Images are provided by the most excelent [linuxserver.io](https://www.linuxserver.io) project. See the [fleet](https://fleet.linuxserver.io).
