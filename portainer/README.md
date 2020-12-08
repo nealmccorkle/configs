@@ -38,10 +38,12 @@ The config and data dirs must be owned by the UID 2001 and GID 2001. This can be
 # External Access and Homepage
 The *Heimdall* image provides an easy to use home page for the media stack. You can optionally expose *Heimdall* with password protection using the *SWAG* proxy server and port forwarding on your router. Remove `heimdall` and `swag` from the `docker-compose.yml` if you do not need a home page and do not plan to expose servies outside your network. The [SWAG Setup](https://docs.linuxserver.io/general/swag) docs provide detail and examples for various configs, including *Heimdall*.
 
+The *Ombi* container gives users of your plex the ablity to request movies and shows. Remove the `ombi` container from the `docker-compose.yml` if you do not want plex users to make requests.
+ 
 # Container Docs
 Links below provide applicaiton docs and docker container setup docs. Images are provided by the most excelent [linuxserver.io](https://www.linuxserver.io) project. See the [fleet](https://fleet.linuxserver.io).
 
-## swag
+## swag (optional)
 - Docs: https://docs.linuxserver.io/general/swag
 - Docker: https://hub.docker.com/r/linuxserver/swag
 
@@ -49,11 +51,11 @@ Links below provide applicaiton docs and docker container setup docs. Images are
 - Docs: https://support.plex.tv/articles/
 - Docker: https://hub.docker.com/r/linuxserver/plex
 
-## heimdall
+## heimdall (optional)
 - Docs: https://heimdall.site
 - Docker: https://hub.docker.com/r/linuxserver/heimdall
 
-## ombi
+## ombi (optional)
 - Docs: https://ombi.io
 - Docker: https://hub.docker.com/r/linuxserver/ombi
 
