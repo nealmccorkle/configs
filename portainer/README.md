@@ -14,11 +14,8 @@ Info on portainer at [portainer.io](https://www.portainer.io). The below uses po
     - Run `mkdir -p /var/data/sabnzbd`
     - Run `chown -R media /var/data`
     - Run `chgrp -R media /var/data`
-1. Setup docker networks if not previously done
-    - Run `docker network create media_default`
-    - Run `docker network create utils_default`
 1. In the portaniner gui, create a new stack named *media*
-    - The stack name *media* will automatically use the *media_default* network
+    - The stack name *media* will automatically create and use the *media_default* bridged network
 1. Edit the provided `docker-compose.yml` and adjust `PUID`, `PGID`, and all `volumes` paths as needed. More info below.
 1. Add the provided `docker-compose.yml` to the *media* stack
 

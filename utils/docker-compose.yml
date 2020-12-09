@@ -11,7 +11,6 @@ services:
     ports:
       - 9000:9000
     networks:
-      - media_default
       - utils_default
     restart: unless-stopped
     
@@ -76,6 +75,4 @@ services:
 
 networks:
   utils_default:
-    external: true
-  media_default:
     external: true
