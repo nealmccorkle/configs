@@ -95,8 +95,7 @@ services:
       - TZ=America/New_York
     volumes:
       - /config/sabnzbd:/config
-      - /var/data/sabnzbd/downloads:/downloads
-      - /var/data/sabnzbd/incomplete/:/incomplete-downloads
+      - /data:/data
     ports:
       - 8080:8080
       - 9090:9090
@@ -138,8 +137,7 @@ services:
       - UMASK_SET=022
     volumes:
       - /config/sonarr:/config
-      - /var/data/shows:/tv
-      - /var/data/sabnzbd/downloads:/downloads
+      - /data:/data
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -153,8 +151,7 @@ services:
       - UMASK_SET=022
     volumes:
       - /config/radarr:/config
-      - /var/data/movies:/movies
-      - /var/data/sabnzbd/downloads:/downloads
+      - /data:/data
     ports:
       - 7878:7878
     restart: unless-stopped
