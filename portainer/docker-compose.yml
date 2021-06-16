@@ -30,7 +30,7 @@ services:
       - PGID=2001
       - TZ=America/New_York
       - VERSION=latest
-      - UMASK_SET=022
+      - UMASK=022
       - PLEX_CLAIM= #optional; see docker docs
     devices:
       - /dev/dri:/dev/dri # needed for Intel hardware transcode
@@ -119,7 +119,7 @@ services:
       - PUID=2001
       - PGID=2001
       - TZ=America/New_York
-      - UMASK_SET=022
+      - UMASK=022
     volumes:
       - /config/bazarr:/config
       - /var/data/shows:/tv
@@ -134,7 +134,7 @@ services:
       - PUID=2001
       - PGID=2001
       - TZ=America/New_York
-      - UMASK_SET=022
+      - UMASK=022
     volumes:
       - /config/sonarr:/config
       - /data:/data
@@ -148,7 +148,7 @@ services:
       - PUID=2001
       - PGID=2001
       - TZ=America/New_York
-      - UMASK_SET=022
+      - UMASK=022
     volumes:
       - /config/radarr:/config
       - /data:/data
