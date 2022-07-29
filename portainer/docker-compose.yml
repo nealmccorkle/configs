@@ -1,5 +1,5 @@
 ---
-version: "2"
+version: "3.1"
 services:
   swag:
     image: linuxserver/swag
@@ -10,13 +10,13 @@ services:
       - PUID=2001
       - PGID=2001
       - TZ=America/New_York
-      - URL=mydomain.com
+      - URL=neal.nealslaws.org
       - ONLY_SUBDOMAINS=true
       - SUBDOMAINS=home,ombi
       - VALIDATION=http
-      - EMAIL=your.email@gmail.com
+      - EMAIL=neal.mccorkle@gmail.com
     volumes:
-      - /config/swag:/config
+      - /data/docker_config/swag:/config
     ports:
       - 443:443
       - 80:80
@@ -45,9 +45,8 @@ services:
       - 32414:32414/udp
       - 32469:32469
     volumes:
-      - /config/plex:/config
-      - /var/data/movies:/movies
-      - /var/data/shows:/tv
+      - /data/docker_config/plex:/config
+      - /data/plex/data:/data
     restart: unless-stopped
   heimdall:
     image: linuxserver/heimdall
@@ -57,7 +56,7 @@ services:
       - PGID=2001
       - TZ=America/New_York
     volumes:
-      - /config/heimdall:/config
+      - /data/docker_config/heimdall:/config
     restart: unless-stopped
   ombi:
     image: linuxserver/ombi:v4-preview
@@ -68,7 +67,7 @@ services:
       - PGID=2001
       - TZ=America/New_York
     volumes:
-      - /config/ombi:/config
+      - /data/docker_config/ombi:/config
     ports:
       - 3579:3579
     restart: unless-stopped
@@ -80,9 +79,9 @@ services:
       - PGID=2001
       - TZ=America/New_York
     volumes:
-      - /config/tautulli:/config
-      - /config/plex/Library/Application Support/Plex Media Server/Logs:/plex_logs
-      - /config/tautulli/logs:/logs
+      - /data/docker_config/tautulli:/config
+      - /data/docker_config/plex/Library/Application Support/Plex Media Server/Logs:/plex_logs
+      - /data/docker_config/tautulli/logs:/logs
     ports:
       - 8181:8181
     restart: unless-stopped
@@ -94,8 +93,8 @@ services:
       - PGID=2001
       - TZ=America/New_York
     volumes:
-      - /config/sabnzbd:/config
-      - /data:/data
+      - /data/docker_config/sabnzbd:/config
+      - /data/plex/helper_data:/helper_data
     ports:
       - 8080:8080
       - 9090:9090
@@ -108,7 +107,7 @@ services:
       - PGID=2001
       - TZ=America/New_York
     volumes:
-      - /config/nzbhydra2:/config
+      - /data/docker_config/nzbhydra2:/config
     ports:
       - 5076:5076
     restart: unless-stopped
@@ -121,9 +120,8 @@ services:
       - TZ=America/New_York
       - UMASK=022
     volumes:
-      - /config/bazarr:/config
-      - /var/data/shows:/tv
-      - /var/data/movies:/movies
+      - /data/docker_config/bazarr:/config
+      - /data/plex/data:/data
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -136,8 +134,8 @@ services:
       - TZ=America/New_York
       - UMASK=022
     volumes:
-      - /config/sonarr:/config
-      - /data:/data
+      - /data/docker_config/sonarr:/config
+      - /data/plex/helper_data:/helper_data
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -150,8 +148,9 @@ services:
       - TZ=America/New_York
       - UMASK=022
     volumes:
-      - /config/radarr:/config
-      - /data:/data
+      - /data/docker_config/radarr:/config
+      - /data/plex/helper_data:/helper_data
     ports:
       - 7878:7878
     restart: unless-stopped
+
